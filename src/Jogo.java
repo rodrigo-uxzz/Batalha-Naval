@@ -13,6 +13,8 @@ public class Jogo {
 
     private int [][] tabuleiroJogador;
     private int [][] tabuleiroNavios;
+    private int [][] tabuleiroPokemons;
+    private int [][] segmentosPokemons;
     
     public void configurarJogo(int dificuldade){
         if(dificuldade == 1){
@@ -40,10 +42,18 @@ public class Jogo {
 
         tabuleiroJogador = new int[tamanhoTabuleiro][tamanhoTabuleiro];
         tabuleiroNavios = new int[tamanhoTabuleiro][tamanhoTabuleiro];
+        tabuleiroPokemons = new int[tamanhoTabuleiro][tamanhoTabuleiro];
+        segmentosPokemons = new int[tamanhoTabuleiro][tamanhoTabuleiro];
+        partesRestantes = 0;
+        partesAfundadas = 0;
 
         for(int tamanhoNavio : tamanhosNavios){
             posicionarNavio(tamanhoNavio);
         }
+    }
+
+    public int getTamanhoTabuleiro() {
+        return tamanhoTabuleiro;
     }
 
     private void posicionarNavio(int tamanhoNavio){
@@ -68,16 +78,34 @@ public class Jogo {
                     }
                 }
 
+                                
                 if(posicaoValida){
                     for(int i = 0; i < tamanhoNavio; i++){
-                        tabuleiroNavios[linha][coluna + i] = 1;
+                        int colunaAtual = coluna + i;
+
+                        tabuleiroNavios[linha][colunaAtual] = 1;
+
+                        tabuleiroPokemons[linha][colunaAtual] = tamanhoNavio;
+
+                        segmentosPokemons[linha][colunaAtual] = i;
+
                         partesRestantes++;
                     }
                 }
+
                 
             }   
         } 
+        
     }
+    public int getPokemonAt(int linha, int coluna) {
+        return tabuleiroPokemons[linha][coluna];
+    }
+
+    public int getSegmentoAt(int linha, int coluna) {
+        return segmentosPokemons[linha][coluna];
+    }
+
 
     public String atirar (int linha, int coluna){
         String resultado;
@@ -116,4 +144,4 @@ public class Jogo {
         }
 
     }
-}  
+}
